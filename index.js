@@ -2,14 +2,13 @@ var inquirer = require('inquirer');
 var fs = require('fs');
 var readMeFileName = 'README.md';
 var encoding = 'utf8';
-var initText = '# README';
 var readMeText = '';
 
 // array of question objects
-var prompts = [
+var questions = [
     {
         "type": "input",
-        "name": "GitHub Username",
+        "name": "gitUserName",
         "message": "What is your GitHub User name"
     },
     {
@@ -45,7 +44,7 @@ var prompts = [
     },
     {
         "type": 'input',
-        "name": 'Contriuting',
+        "name": 'Contributing',
         "message": "What are the Contributing Steps"
     },
     {
@@ -56,13 +55,21 @@ var prompts = [
 
 ]
 
+// write file
+fs.writeFile(readMeFileName,'',encoding,function(err){
+     if (err)
+        console.log('error writing to file');
+});
 
-
-inquirer.prompt(prompts).then(answers => 
-    {
-    
-    console.log(JSON.stringify(answers, null, ' '));
-    
-    
-   
+// prompt for questions
+inquirer.prompt(questions).then(response => {
+    for(var question in response){
+        if (question != 'gitUserName'){
+            readMeText = '# '+question+'\n'+response[question]+'\n\n\n\n';
+            fs.appendFile(readMeFileName,readMeText,encoding,function(err){
+                if (err)
+                    console.log('error appending to file');
+            });
+        }
+    }
 });
