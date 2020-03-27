@@ -81,10 +81,11 @@ inquirer.prompt(questions).then(response => {
         } else {
             if (question == 'Project Title'){
                 readMeText = '# '+question+'\n';
+                readMeText += response[question]+'\n';
                 readMeText += '('+'https://github.com/'+githubUser+'/HW-Week5-README-Generator'+')';
-                readMeText += '\n\n\n\n';
+                readMeText += '\n\n';
             }else {
-                readMeText = '# '+question+'\n'+response[question]+'\n\n\n\n';
+                readMeText = '# '+question+'\n'+response[question]+'\n\n';
             }
         }
 
