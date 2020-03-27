@@ -1,40 +1,42 @@
 # Project Title
-README Generator
-
-
-
-# Table of Contents
-List
+(https://github.com/pallavinama/HW-Week5-README-Generator)
 
 
 
 # Project Description
-This Project is about generating a Good Read me for Github Repositories/Projects.
+a
 
 
 
-# Usage
-Steps
+# Table of Contents
+s
 
 
 
 # Installation
-Installation Steps
+s
 
 
 
-# Contributing
-Steps
+# Usage
+s
 
 
 
 # License
-Details
+s
+
+
+
+# Contributing
+s
 
 
 
 # Tests
-No
+s
 
 
 
+# Questions
+If you have any qestions about the repo, open an issue or contact https://github.com/pallavinama directly

@@ -1,8 +1,13 @@
 var inquirer = require('inquirer');
 var fs = require('fs');
+var axios = require('axios');
 var readMeFileName = 'README.md';
 var encoding = 'utf8';
 var readMeText = '';
+
+var githubUser = '';
+var githubUsersUrl = '';
+var questions = '';
 
 // array of question objects
 var questions = [
@@ -63,13 +68,40 @@ fs.writeFile(readMeFileName,'',encoding,function(err){
 
 // prompt for questions
 inquirer.prompt(questions).then(response => {
+    var gitHubUserAvatarUrl = '';
     for(var question in response){
-        if (question != 'gitUserName'){
-            readMeText = '# '+question+'\n'+response[question]+'\n\n\n\n';
-            fs.appendFile(readMeFileName,readMeText,encoding,function(err){
-                if (err)
-                    console.log('error appending to file');
+        if (question == 'gitUserName'){
+            githubUser = response[question];
+            githubUsersUrl = 'https://api.github.com/users/'+githubUser;
+            //call github api
+            axios.get(githubUsersUrl).then(response => {
+                gitHubUserAvatarUrl = response.data.avatar_url;
+                // console.log(gitHubUserAvatarUrl);
             });
+        } else {
+            if (question == 'Project Title'){
+                readMeText = '# '+question+'\n';
+                readMeText += '('+'https://github.com/'+githubUser+'/HW-Week5-README-Generator'+')';
+                readMeText += '\n\n\n\n';
+            }else {
+                readMeText = '# '+question+'\n'+response[question]+'\n\n\n\n';
+            }
         }
+
+        // append to file
+        fs.appendFileSync(readMeFileName,readMeText,encoding,function(err){
+            if (err)
+                console.log('error appending to file');
+        });
     }
+
+    // append avatar url
+    questions = '# Questions'+'\n';
+    // questions += '<img src="'+gitHubUserAvatarUrl+'" alt="avatar" style="border-radius:16px" width="30" />'+'\n\n';
+    //questions += '\n\n\';
+    questions += 'If you have any qestions about the repo, open an issue or contact https://github.com/'+githubUser+' directly';
+    fs.appendFileSync(readMeFileName,questions,encoding,function(err){
+        if (err)
+            console.log('error appending to file');
+    });
 });
